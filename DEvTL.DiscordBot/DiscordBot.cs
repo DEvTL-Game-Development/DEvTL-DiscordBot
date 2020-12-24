@@ -1,32 +1,65 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DEvTL.DiscordBot
 {
-    public class DiscordBot
+    public class DiscordBot : IDisposable
     {
         private readonly ILogger<DiscordBot> _logger;
-        private readonly DiscordBotOptions _options;
-        private readonly DiscordSocketClient _socketClient;
-        private readonly CommandHandler _command;
+        private readonly IOptionsMonitor<DiscordBotOptions> _optionsMonitor;
+        private readonly DiscordSocketClient _client;
+        private readonly CommandHandler _commandHandler;
 
-        public DiscordBot(ILogger<DiscordBot> logger,DiscordBotOptions options, DiscordSocketClient socketClient, CommandHandler command)
+        public DiscordBot(
+          ILogger<DiscordBot> logger,
+          IOptionsMonitor<DiscordBotOptions> optionsMonitor,
+          DiscordSocketClient discordSocketClient,
+          CommandHandler commandHandler
+        )
         {
             _logger = logger;
-            _options = options;
-            _socketClient = socketClient;
-            _command = command;
+            _optionsMonitor = optionsMonitor;
+            _client = discordSocketClient;
+            _commandHandler = commandHandler;
         }
 
         public async Task StartAsync()
         {
-            _logger.LogInformation("Logging in ...");
-            await _socketClient.LoginAsync(TokenType.Bot, _options.Token);
+            await _commandHandler.InitializeAsync();
+            await LoginAsync();
+            await InternalStartAsync();
+        }
+
+        private async Task InternalStartAsync()
+        {
+            _logger.LogInformation("Starting up...");
+
+            await _client.StartAsync();
+        }
+
+        public async Task StopAsync()
+        {
+            await _client.StopAsync();
+        }
+
+        private async Task LoginAsync()
+        {
+            _logger.LogInformation("Logging in...");
+
+            await _client.LoginAsync(TokenType.Bot, _optionsMonitor.CurrentValue.Token);
+        }
+
+        public void Dispose()
+        {
+            _client?.Dispose();
         }
     }
 }

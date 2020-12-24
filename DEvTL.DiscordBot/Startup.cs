@@ -27,6 +27,7 @@ namespace DEvTL.DiscordBot
             services.AddControllers();
             services.AddDiscordBot(Configuration.GetSection("ModuleConfiguration"));
             
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

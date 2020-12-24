@@ -1,0 +1,4 @@
+[2020-12-25 10:13:45.596 +01:00 INF]  Application Starting
+[2020-12-25 10:27:49.786 +01:00 INF]  Application Starting
+[2020-12-25 10:28:52.742 +01:00 INF]  Application Starting
+[2020-12-25 10:30:33.139 +01:00 INF]  Application Starting
