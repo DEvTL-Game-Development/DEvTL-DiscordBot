@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 using System.Threading.Tasks;
 
 namespace DEvTL.DiscordBot
@@ -13,9 +14,10 @@ namespace DEvTL.DiscordBot
             var builder = new ConfigurationBuilder();
 
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(builder.Build())
+                .WriteTo.Console(theme: AnsiConsoleTheme.Code, outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {SourceContext:l} {Message:lj}{NewLine}{Exception}")
+                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day,
+                  outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Level:u3}] {SourceContext:l} {Message:lj}{NewLine}{Exception}")
                 .Enrich.FromLogContext()
-                .WriteTo.Console()
                 .CreateLogger();
 
             Log.Logger.Information("Application Starting");
@@ -23,6 +25,8 @@ namespace DEvTL.DiscordBot
             var host = CreateHostBuilder(args).Build();
 
             await host.RunAsync();
+
+
         }
 
 
