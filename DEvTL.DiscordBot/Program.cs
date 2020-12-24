@@ -20,9 +20,9 @@ namespace DEvTL.DiscordBot
 
             Log.Logger.Information("Application Starting");
 
-            CreateHostBuilder(args);
+            var host = CreateHostBuilder(args).Build();
 
-            Task.Delay(-1);
+            await host.RunAsync();
         }
 
 
