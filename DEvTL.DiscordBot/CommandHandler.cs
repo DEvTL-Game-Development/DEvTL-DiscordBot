@@ -34,7 +34,7 @@ namespace DEvTL.DiscordBot
 
         private async Task MessageReceived(SocketMessage rawMessage)
         {
-            if (!(rawMessage is SocketUserMessage message))
+            if (rawMessage is not SocketUserMessage message)
             {
                 return;
             }
@@ -53,10 +53,8 @@ namespace DEvTL.DiscordBot
 
             var context = new SocketCommandContext(_discordClient, message);
 
-            using (var serviceScope = _serviceProvider.CreateScope())
-            {
-                await _commandService.ExecuteAsync(context, argPos, serviceScope.ServiceProvider);
-            }
+            using var serviceScope = _serviceProvider.CreateScope();
+            await _commandService.ExecuteAsync(context, argPos, serviceScope.ServiceProvider);
         }
 
         private async Task CommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult result)

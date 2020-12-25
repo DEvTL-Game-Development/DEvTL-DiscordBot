@@ -12,7 +12,9 @@ namespace DEvTL.DiscordBot.Extensions
         public static void AddDiscordBot (this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions<DiscordBotOptions>().Bind(configuration);
+            services.AddTransient<DiscordBot>();
             services.AddHostedService<HostingBackgroundService>();
+
         }
 
 

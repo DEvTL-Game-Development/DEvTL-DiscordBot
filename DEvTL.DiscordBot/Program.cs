@@ -11,7 +11,6 @@ namespace DEvTL.DiscordBot
     {
         static async Task Main(string[] args)
         {
-            var builder = new ConfigurationBuilder();
 
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console(theme: AnsiConsoleTheme.Code, outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {SourceContext:l} {Message:lj}{NewLine}{Exception}")
