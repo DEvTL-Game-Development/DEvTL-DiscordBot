@@ -1,7 +1,0 @@
-[2020-12-25 10:13:45.596 +01:00 INF]  Application Starting
-[2020-12-25 10:27:49.786 +01:00 INF]  Application Starting
-[2020-12-25 10:28:52.742 +01:00 INF]  Application Starting
-[2020-12-25 10:30:33.139 +01:00 INF]  Application Starting
-[2020-12-25 13:47:40.904 +01:00 INF]  Application Starting
-[2020-12-25 14:17:29.119 +01:00 INF]  Application Starting
-[2020-12-25 14:20:24.798 +01:00 INF]  Application Starting
