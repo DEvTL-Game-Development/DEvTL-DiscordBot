@@ -7,8 +7,8 @@ namespace DEvTL.DiscordBot
 {
     public class DiscordBotOptions
     {
-        public string Token { get; set; }
-        public ModuleConfiguration Configuration { get; set; }
+        public char Prefix { get; set; }
+        public ModuleConfiguration ModuleConfiguration { get; set; }
     }
 
     public class ModuleConfiguration

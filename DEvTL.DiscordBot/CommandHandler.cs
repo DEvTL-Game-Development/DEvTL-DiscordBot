@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -11,25 +12,26 @@ namespace DEvTL.DiscordBot
 {
     public class CommandHandler
     {
+        private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
-        private readonly ILogger<CommandService> _commandServiceLogger;
-        private readonly DiscordSocketClient _discordClient;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IOptionsMonitor<DiscordBotOptions> _botOptions;
+        private readonly IOptionsMonitor<DiscordHostOptions> _hostOptions;
+        private readonly ILogger<CommandHandler> _logger;
 
-        public CommandHandler(IServiceProvider serviceProvider)
+        public CommandHandler(DiscordSocketClient client, CommandService commandService, IOptionsMonitor<DiscordBotOptions> botOptions, IOptionsMonitor<DiscordHostOptions> hostOptions, ILogger<CommandHandler> logger)
         {
-            _commandServiceLogger = serviceProvider.GetRequiredService<ILogger<CommandService>>();
-            _commandService = serviceProvider.GetRequiredService<CommandService>();
-            _discordClient = serviceProvider.GetRequiredService<DiscordSocketClient>();
-            _serviceProvider = serviceProvider;
+            _client = client;
+            _commandService = commandService;
+            _botOptions = botOptions;
+            _hostOptions = hostOptions;
+            _logger = logger;
         }
 
         public async Task InitializeAsync()
         {
+            _logger.LogInformation($"Prefix: {_hostOptions.CurrentValue.Prefix}");
+            _client.MessageReceived += MessageReceived;
             _commandService.CommandExecuted += CommandExecuted;
-            _discordClient.MessageReceived += MessageReceived;
-
-            await _commandService.AddModulesAsync(Assembly.GetExecutingAssembly(), _serviceProvider.CreateScope().ServiceProvider);
         }
 
         private async Task MessageReceived(SocketMessage rawMessage)
@@ -46,15 +48,15 @@ namespace DEvTL.DiscordBot
 
             var argPos = 0;
 
-            if (!message.HasCharPrefix('!', ref argPos))
+            if (!message.HasCharPrefix(_hostOptions.CurrentValue.Prefix, ref argPos))
             {
                 return;
             }
 
-            var context = new SocketCommandContext(_discordClient, message);
+            var context = new SocketCommandContext(_client, message);
+            _logger.LogInformation($"Message with the prefix {_hostOptions.CurrentValue.Prefix} recived from #{context.Channel.Name}");
+            
 
-            using var serviceScope = _serviceProvider.CreateScope();
-            await _commandService.ExecuteAsync(context, argPos, serviceScope.ServiceProvider);
         }
 
         private async Task CommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult result)

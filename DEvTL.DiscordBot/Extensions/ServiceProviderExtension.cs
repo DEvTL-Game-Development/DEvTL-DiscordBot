@@ -1,4 +1,6 @@
-﻿using Discord.WebSocket;
+﻿using DEvTL.DiscordBot.BackgroundServices;
+using Discord.Commands;
+using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -15,8 +17,18 @@ namespace DEvTL.DiscordBot.Extensions
             services.AddOptions<DiscordBotOptions>().Bind(configuration);
             services.AddSingleton<DiscordBot>();
             services.AddSingleton<DiscordSocketClient>();
+
+            services.AddSingleton<CommandService>();
+            services.AddSingleton<CommandHandler>();
+
+
             services.AddHostedService<HostingBackgroundService>();
 
+        }
+
+        public static void AddDiscordBotHost (this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddOptions<DiscordHostOptions>().Bind(configuration);
         }
 
 

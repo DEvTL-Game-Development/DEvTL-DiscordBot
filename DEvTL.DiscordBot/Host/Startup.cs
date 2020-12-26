@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DEvTL.DiscordBot
+namespace DEvTL.DiscordBot.Host
 {
     public class Startup
     {
@@ -26,8 +26,9 @@ namespace DEvTL.DiscordBot
         {
             services.AddControllers();
             services.AddDiscordBot(Configuration.GetSection("ModuleConfiguration"));
-            
-            
+            services.AddDiscordBotHost(Configuration.GetSection("HostingConfiguration"));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

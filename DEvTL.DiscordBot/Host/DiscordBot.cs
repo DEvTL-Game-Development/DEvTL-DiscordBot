@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DEvTL.DiscordBot
+namespace DEvTL.DiscordBot.Host
 {
     public class DiscordBot : IDisposable
     {
@@ -21,17 +21,21 @@ namespace DEvTL.DiscordBot
         public DiscordBot(
           ILogger<DiscordBot> logger,
           IOptionsMonitor<DiscordBotOptions> optionsMonitor,
-          DiscordSocketClient discordSocketClient
+          DiscordSocketClient discordSocketClient,
+          CommandHandler commandHandler
         )
         {
             _logger = logger;
             _optionsMonitor = optionsMonitor;
             _client = discordSocketClient;
+            _commandHandler = commandHandler;
         }
 
         public async Task StartAsync()
         {
+
             await LoginAsync();
+            await _commandHandler.InitializeAsync();
             await InternalStartAsync();
         }
 
@@ -49,9 +53,14 @@ namespace DEvTL.DiscordBot
 
         private async Task LoginAsync()
         {
+            //if (_optionsMonitor.CurrentValue.Token == null)
+            //{
+            //    _logger.LogError("Please specify a Token in your configuration");
+            //    return;
+            //}
             _logger.LogInformation("Logging in...");
 
-            await _client.LoginAsync(TokenType.Bot, _optionsMonitor.CurrentValue.Token);
+            await _client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("DISCORD_TOKEN"));
 
             _logger.LogInformation("Logged in...");
         }

@@ -5,7 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 
-namespace DEvTL.DiscordBot
+using DEvTL.DiscordBot.Host;
+
+namespace DEvTL.DiscordBot.BackgroundServices
 {
     public class HostingBackgroundService : BackgroundService
     {
