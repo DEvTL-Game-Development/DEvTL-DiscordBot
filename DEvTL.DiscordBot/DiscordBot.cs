@@ -21,19 +21,16 @@ namespace DEvTL.DiscordBot
         public DiscordBot(
           ILogger<DiscordBot> logger,
           IOptionsMonitor<DiscordBotOptions> optionsMonitor,
-          DiscordSocketClient discordSocketClient,
-          CommandHandler commandHandler
+          DiscordSocketClient discordSocketClient
         )
         {
             _logger = logger;
             _optionsMonitor = optionsMonitor;
             _client = discordSocketClient;
-            _commandHandler = commandHandler;
         }
 
         public async Task StartAsync()
         {
-            await _commandHandler.InitializeAsync();
             await LoginAsync();
             await InternalStartAsync();
         }
@@ -55,6 +52,8 @@ namespace DEvTL.DiscordBot
             _logger.LogInformation("Logging in...");
 
             await _client.LoginAsync(TokenType.Bot, _optionsMonitor.CurrentValue.Token);
+
+            _logger.LogInformation("Logged in...");
         }
 
         public void Dispose()
