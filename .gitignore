@@ -326,6 +326,7 @@ ASALocalRun/
 
 # MSBuild Binary and Structured Log
 *.binlog
+/logs/
 
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
@@ -339,4 +340,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-WebApplication1/*
+/WebApplication1/
