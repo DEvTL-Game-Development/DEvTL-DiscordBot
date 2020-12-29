@@ -26,7 +26,6 @@ namespace DEvTL.DiscordBot.Hosting
         {
             services.AddControllers();
             services.AddDiscordBot(Configuration.GetSection("ModuleConfiguration"), Configuration.GetSection("HostingConfiguration"));
-            services.AddDiscordBotHost(Configuration.GetSection("HostingConfiguration"));
 
 
         }
