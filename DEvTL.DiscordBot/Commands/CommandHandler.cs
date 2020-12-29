@@ -8,7 +8,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace DEvTL.DiscordBot
+namespace DEvTL.DiscordBot.Commands
 {
     public class CommandHandler
     {

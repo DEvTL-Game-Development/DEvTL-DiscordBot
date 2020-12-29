@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DEvTL.DiscordBot.Host
+namespace DEvTL.DiscordBot.Hosting
 {
     public class Startup
     {
@@ -25,7 +25,7 @@ namespace DEvTL.DiscordBot.Host
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDiscordBot(Configuration.GetSection("ModuleConfiguration"));
+            services.AddDiscordBot(Configuration.GetSection("ModuleConfiguration"), Configuration.GetSection("HostingConfiguration"));
             services.AddDiscordBotHost(Configuration.GetSection("HostingConfiguration"));
 
 

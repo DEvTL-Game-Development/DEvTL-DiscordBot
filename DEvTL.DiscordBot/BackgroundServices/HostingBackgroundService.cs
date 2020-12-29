@@ -5,15 +5,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 
-using DEvTL.DiscordBot.Host;
+using DEvTL.DiscordBot.Hosting;
 
 namespace DEvTL.DiscordBot.BackgroundServices
 {
     public class HostingBackgroundService : BackgroundService
     {
-        private readonly DiscordBot _discordBot;
+        private readonly Bot _discordBot;
 
-        public HostingBackgroundService(DiscordBot discordBot)
+        public HostingBackgroundService(Bot discordBot)
         {
             _discordBot = discordBot;
         }

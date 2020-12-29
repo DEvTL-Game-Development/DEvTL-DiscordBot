@@ -5,7 +5,7 @@ using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 using System.Threading.Tasks;
 
-namespace DEvTL.DiscordBot.Host
+namespace DEvTL.DiscordBot.Hosting
 {
     class Program
     {

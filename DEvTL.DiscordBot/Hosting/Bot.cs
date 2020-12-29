@@ -1,25 +1,22 @@
-﻿using Discord;
+﻿using DEvTL.DiscordBot.Commands;
+using Discord;
 using Discord.WebSocket;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace DEvTL.DiscordBot.Host
+namespace DEvTL.DiscordBot.Hosting
 {
-    public class DiscordBot : IDisposable
+    public class Bot : IDisposable
     {
-        private readonly ILogger<DiscordBot> _logger;
+        private readonly ILogger<Bot> _logger;
         private readonly IOptionsMonitor<DiscordBotOptions> _optionsMonitor;
         private readonly DiscordSocketClient _client;
         private readonly CommandHandler _commandHandler;
 
-        public DiscordBot(
-          ILogger<DiscordBot> logger,
+        public Bot(
+          ILogger<Bot> logger,
           IOptionsMonitor<DiscordBotOptions> optionsMonitor,
           DiscordSocketClient discordSocketClient,
           CommandHandler commandHandler
