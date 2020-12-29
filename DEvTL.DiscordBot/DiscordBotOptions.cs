@@ -7,7 +7,7 @@ namespace DEvTL.DiscordBot
 {
     public class DiscordBotOptions
     {
-        public char Prefix { get; set; }
+        public HostingConfiguration HostingConfiguration { get; set; }
         public ModuleConfiguration ModuleConfiguration { get; set; }
     }
 
@@ -26,12 +26,13 @@ namespace DEvTL.DiscordBot
             }
         }
 
-        public class HostingConfiguration
-        {
-            public char Prefix { get; set; }
-            public string BotToken { get; set; }
-        }
+        
     }
 
-  
+    public class HostingConfiguration
+    {
+        public char Prefix { get; set; }
+        public string BotToken { get; set; }
+    }
+
 }
