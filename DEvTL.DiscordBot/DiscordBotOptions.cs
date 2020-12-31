@@ -25,8 +25,6 @@ namespace DEvTL.DiscordBot
                 public string Emoji { get; set; }
             }
         }
-
-        
     }
 
     public class HostingConfiguration
