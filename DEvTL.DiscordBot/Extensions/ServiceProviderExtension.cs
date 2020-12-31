@@ -14,10 +14,9 @@ namespace DEvTL.DiscordBot.Extensions
 {
     public static class ServiceProviderExtension
     {
-        public static void AddDiscordBot (this IServiceCollection services, IConfiguration ModuleConfiguration, IConfiguration Data)
+        public static void AddDiscordBot (this IServiceCollection services, IConfiguration BotConfiguration)
         {
-            services.AddOptions<DiscordBotOptions>().Bind(ModuleConfiguration);
-            services.AddOptions<DiscordBotOptions>().Bind(Data);
+            services.AddOptions<DiscordBotOptions>().Bind(BotConfiguration);
             services.AddSingleton<DEvTL.DiscordBot.Hosting.Bot>();
             services.AddSingleton<DiscordSocketClient>();
 
@@ -27,11 +26,6 @@ namespace DEvTL.DiscordBot.Extensions
 
             services.AddHostedService<HostingBackgroundService>();
 
-        }
-
-        public static void AddDiscordBotHost (this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddOptions<DiscordBotOptions>().Bind(configuration);
         }
 
 

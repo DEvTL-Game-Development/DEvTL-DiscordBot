@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Discord;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace DEvTL.DiscordBot
 {
     public class DiscordBotOptions
     {
-        public HostingConfiguration HostingConfiguration { get; set; }
+        public char Prefix { get; set; }
         public ModuleConfiguration ModuleConfiguration { get; set; }
     }
 
@@ -25,12 +26,6 @@ namespace DEvTL.DiscordBot
                 public string Emoji { get; set; }
             }
         }
-    }
-
-    public class HostingConfiguration
-    {
-        public char Prefix { get; set; }
-        public string BotToken { get; set; }
     }
 
 }

@@ -17,14 +17,16 @@ namespace DEvTL.DiscordBot.Commands
         private readonly IOptionsMonitor<DiscordBotOptions> _botOptions;
         private readonly IOptionsMonitor<DiscordBotOptions> _hostOptions;
         private readonly ILogger<CommandHandler> _logger;
+        private readonly IServiceProvider _serviceProvider;
 
-        public CommandHandler(DiscordSocketClient client, CommandService commandService, IOptionsMonitor<DiscordBotOptions> botOptions, IOptionsMonitor<DiscordBotOptions> hostOptions, ILogger<CommandHandler> logger)
+        public CommandHandler(DiscordSocketClient client, CommandService commandService, IOptionsMonitor<DiscordBotOptions> botOptions, IOptionsMonitor<DiscordBotOptions> hostOptions, ILogger<CommandHandler> logger, IServiceProvider serviceProvider)
         {
             _client = client;
             _commandService = commandService;
             _botOptions = botOptions;
             _hostOptions = hostOptions;
             _logger = logger;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task InitializeAsync()
@@ -32,6 +34,9 @@ namespace DEvTL.DiscordBot.Commands
             //_logger.LogInformation($"Prefix: {_hostOptions.CurrentValue.HostingConfiguration.Prefix}");
             _client.MessageReceived += MessageReceived;
             _commandService.CommandExecuted += CommandExecuted;
+
+            await _commandService.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
+                                        services: null);
         }
 
         private async Task MessageReceived(SocketMessage rawMessage)
@@ -48,14 +53,22 @@ namespace DEvTL.DiscordBot.Commands
 
             var argPos = 0;
 
-            if (!message.HasCharPrefix(_hostOptions.CurrentValue.HostingConfiguration.Prefix, ref argPos))
+            if (!message.HasCharPrefix(_hostOptions.CurrentValue.Prefix, ref argPos))
             {
                 return;
             }
 
             var context = new SocketCommandContext(_client, message);
-            _logger.LogInformation($"Message with the prefix {_hostOptions.CurrentValue.HostingConfiguration.Prefix} recived from #{context.Channel.Name}");
-            
+            _logger.LogInformation($"Message with the prefix {_hostOptions.CurrentValue.Prefix} recived from #{context.Channel.Name}");
+
+
+            /*using (var serviceScope = _serviceProvider.CreateScope())
+            {
+                await _commandService.ExecuteAsync(context, argPos, serviceScope.ServiceProvider);
+            }*/
+
+            await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
+
 
         }
 
