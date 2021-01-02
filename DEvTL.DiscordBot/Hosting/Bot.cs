@@ -4,6 +4,8 @@ using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DEvTL.DiscordBot.Hosting
@@ -11,21 +13,21 @@ namespace DEvTL.DiscordBot.Hosting
     public class Bot : IDisposable
     {
         private readonly ILogger<Bot> _logger;
-        private readonly IOptionsMonitor<DiscordBotOptions> _optionsMonitor;
         private readonly DiscordSocketClient _client;
         private readonly CommandHandler _commandHandler;
+        private readonly IEnumerable<IModule> _modules;
 
         public Bot(
-          ILogger<Bot> logger,
-          IOptionsMonitor<DiscordBotOptions> optionsMonitor,
-          DiscordSocketClient discordSocketClient,
-          CommandHandler commandHandler
-        )
+            ILogger<Bot> logger,
+            DiscordSocketClient discordSocketClient,
+            CommandHandler commandHandler,
+            IEnumerable<IModule> modules
+            )
         {
             _logger = logger;
-            _optionsMonitor = optionsMonitor;
             _client = discordSocketClient;
             _commandHandler = commandHandler;
+            _modules = modules;
         }
 
         public async Task StartAsync()
@@ -34,6 +36,12 @@ namespace DEvTL.DiscordBot.Hosting
             await LoginAsync();
             await _commandHandler.InitializeAsync();
             await InternalStartAsync();
+
+            foreach (var module in _modules)
+            {
+                _logger.LogInformation("Initializing {module}", module.GetType().Name);
+                await module.InitializeAsync();
+            }
         }
 
         private async Task InternalStartAsync()
@@ -62,9 +70,6 @@ namespace DEvTL.DiscordBot.Hosting
             _logger.LogInformation("Logged in...");
         }
 
-        public void Dispose()
-        {
-            _client?.Dispose();
-        }
+        public void Dispose() => _client?.Dispose();
     }
 }

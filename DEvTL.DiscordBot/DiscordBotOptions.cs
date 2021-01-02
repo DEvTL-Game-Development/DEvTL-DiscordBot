@@ -14,18 +14,22 @@ namespace DEvTL.DiscordBot
 
     public class ModuleConfiguration
     {
+
+        public ReactionModuleConfiguration Reactions { get; set; }
+
         public class ReactionModuleConfiguration
         {
-            public ICollection<Reaction> Items { get; set; }
+            public IReadOnlyCollection<Reaction> Items { get; set; }
 
             public class Reaction
             {
-                public ulong ChannelID { get; set; }
-                public ulong MessageID { get; set; }
-                public ulong RoleID { get; set; }
+                public ulong ChannelId { get; set; }
+                public ulong MessageId { get; set; }
+                public ulong RoleId { get; set; }
                 public string Emoji { get; set; }
             }
         }
+
     }
 
 }

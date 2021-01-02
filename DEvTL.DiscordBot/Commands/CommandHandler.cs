@@ -14,16 +14,14 @@ namespace DEvTL.DiscordBot.Commands
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
-        private readonly IOptionsMonitor<DiscordBotOptions> _botOptions;
         private readonly IOptionsMonitor<DiscordBotOptions> _hostOptions;
         private readonly ILogger<CommandHandler> _logger;
         private readonly IServiceProvider _serviceProvider;
 
-        public CommandHandler(DiscordSocketClient client, CommandService commandService, IOptionsMonitor<DiscordBotOptions> botOptions, IOptionsMonitor<DiscordBotOptions> hostOptions, ILogger<CommandHandler> logger, IServiceProvider serviceProvider)
+        public CommandHandler(DiscordSocketClient client, CommandService commandService,  IOptionsMonitor<DiscordBotOptions> hostOptions, ILogger<CommandHandler> logger, IServiceProvider serviceProvider)
         {
             _client = client;
             _commandService = commandService;
-            _botOptions = botOptions;
             _hostOptions = hostOptions;
             _logger = logger;
             _serviceProvider = serviceProvider;
