@@ -1,18 +1,14 @@
-﻿using DEvTL.DiscordBot.BackgroundServices;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using DEvTL.DiscordBot.BackgroundServices;
 using DEvTL.DiscordBot.Commands;
-using DEvTL.DiscordBot.Hosting;
-using DEvTL.DiscordBot.Modules;
 using DEvTL.DiscordBot.Services;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-
+using Microsoft.Extensions.Options;
 namespace DEvTL.DiscordBot.Extensions
 {
     public static class ServiceProviderExtension
@@ -21,7 +17,8 @@ namespace DEvTL.DiscordBot.Extensions
         {
             services.AddOptions<DiscordBotOptions>().Bind(BotConfiguration);
             services.AddSingleton<DEvTL.DiscordBot.Hosting.Bot>();
-            services.AddSingleton<DiscordSocketClient>();
+
+            services.AddSingleton(DiscordSocketClientFactory);
 
             services.AddSingleton<CommandService>();
             services.AddSingleton<CommandHandler>();
@@ -45,6 +42,16 @@ namespace DEvTL.DiscordBot.Extensions
             {
                 services.AddSingleton(typeof(IModule), module);
             }
+        }
+
+        private static DiscordSocketClient DiscordSocketClientFactory(IServiceProvider serviceProvider)
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<DiscordBotOptions>>();
+
+            return new DiscordSocketClient(new DiscordSocketConfig
+            {
+                AlwaysDownloadUsers = options.Value.AlwaysDownloadUsers
+            });
         }
     }
 }

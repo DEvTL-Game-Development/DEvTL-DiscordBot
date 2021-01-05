@@ -33,8 +33,16 @@ namespace DEvTL.DiscordBot.Commands
             _client.MessageReceived += MessageReceived;
             _commandService.CommandExecuted += CommandExecuted;
 
+            _client.Ready += OnReady;
+
             await _commandService.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
                                         services: null);
+        }
+
+        private Task OnReady()
+        {
+            _logger.LogInformation("Client is ready");
+            return Task.CompletedTask;
         }
 
         private async Task MessageReceived(SocketMessage rawMessage)

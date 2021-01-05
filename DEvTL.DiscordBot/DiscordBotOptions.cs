@@ -9,6 +9,7 @@ namespace DEvTL.DiscordBot
     public class DiscordBotOptions
     {
         public char Prefix { get; set; }
+        public bool AlwaysDownloadUsers { get; set; }
         public ModuleConfiguration ModuleConfiguration { get; set; }
     }
 
