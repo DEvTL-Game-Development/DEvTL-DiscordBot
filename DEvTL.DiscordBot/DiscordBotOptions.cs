@@ -17,6 +17,7 @@ namespace DEvTL.DiscordBot
     {
 
         public ReactionModuleConfiguration Reactions { get; set; }
+        public SugguestionModuleConfiguration Sugguestion { get; set; }
 
         public class ReactionModuleConfiguration
         {
@@ -28,9 +29,19 @@ namespace DEvTL.DiscordBot
                 public ulong MessageId { get; set; }
                 public ulong RoleId { get; set; }
                 public string Emoji { get; set; }
+                public bool RemoveReminder { get; set; }
             }
         }
 
+        public class SugguestionModuleConfiguration
+        {
+            public IReadOnlyCollection<Sugguestion> Items { get; set; }
+            public class Sugguestion
+            {
+                public string Type { get; set; }
+                public ulong ChannelId { get; set; }
+            }
+        }
     }
 
 }
