@@ -50,7 +50,9 @@ namespace DEvTL.DiscordBot.Extensions
 
             return new DiscordSocketClient(new DiscordSocketConfig
             {
-                AlwaysDownloadUsers = options.Value.AlwaysDownloadUsers
+                LogLevel = Discord.LogSeverity.Info,
+                AlwaysDownloadUsers = options.Value.AlwaysDownloadUsers,
+                MessageCacheSize = 100
             });
         }
     }
