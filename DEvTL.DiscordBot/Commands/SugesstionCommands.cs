@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace DEvTL.DiscordBot.Commands
 {
-    public class SuguesstionCommands : ModuleBase
+    public class SugesstionCommands : ModuleBase
     {
         private readonly IOptionsMonitor<DiscordBotOptions> _options;
-        private readonly SugguestionService _sugguestionService;
+        private readonly SuggestionService _sugguestionService;
 
-        public SuguesstionCommands(IOptionsMonitor<DiscordBotOptions> options, SugguestionService sugguestionService)
+        public SugesstionCommands(IOptionsMonitor<DiscordBotOptions> options, SuggestionService sugguestionService)
         {
             _options = options;
             _sugguestionService = sugguestionService;

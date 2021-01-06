@@ -17,7 +17,7 @@ namespace DEvTL.DiscordBot
     {
 
         public ReactionModuleConfiguration Reactions { get; set; }
-        public SugguestionModuleConfiguration Sugguestion { get; set; }
+        public SuggestionModuleConfiguration Sugguestion { get; set; }
 
         public class ReactionModuleConfiguration
         {
@@ -33,7 +33,7 @@ namespace DEvTL.DiscordBot
             }
         }
 
-        public class SugguestionModuleConfiguration
+        public class SuggestionModuleConfiguration
         {
             public IReadOnlyCollection<Sugguestion> Items { get; set; }
             public class Sugguestion

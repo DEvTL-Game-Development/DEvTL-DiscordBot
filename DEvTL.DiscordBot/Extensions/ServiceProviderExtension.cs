@@ -26,6 +26,7 @@ namespace DEvTL.DiscordBot.Extensions
             services.AddSingleton<CommandHandler>();
 
             services.AddTransient<ReactionService>();
+            services.AddTransient<SuggestionService>();
 
 
             services.AddHostedService<HostingBackgroundService>();
