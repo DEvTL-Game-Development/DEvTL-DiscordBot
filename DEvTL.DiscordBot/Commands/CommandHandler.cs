@@ -36,7 +36,7 @@ namespace DEvTL.DiscordBot.Commands
             _client.Ready += OnReady;
 
             await _commandService.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
-                                        services: null);
+                                        services: _serviceProvider);
         }
 
         private Task OnReady()

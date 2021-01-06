@@ -35,8 +35,8 @@ namespace DEvTL.DiscordBot
 
         public class SuggestionModuleConfiguration
         {
-            public IReadOnlyCollection<Sugguestion> Items { get; set; }
-            public class Sugguestion
+            public IReadOnlyCollection<Suggestion> Items { get; set; }
+            public class Suggestion
             {
                 public string Type { get; set; }
                 public ulong ChannelId { get; set; }
