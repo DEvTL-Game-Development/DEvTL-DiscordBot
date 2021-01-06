@@ -23,9 +23,9 @@ namespace DEvTL.DiscordBot.Commands
         [Command("Suggest")]
         public async Task SuggestAsync(string type, string suggestion)
         {
-            var (channel, _) = _sugguestionService.Process(type);
+            var channel = _sugguestionService.Process(type);
 
-            await (channel as ISocketMessageChannel).SendMessageAsync(suggestion);
+            await channel.SendMessageAsync(suggestion);
         }
     }
 }

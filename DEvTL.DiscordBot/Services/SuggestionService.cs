@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
+using Discord;
 
 namespace DEvTL.DiscordBot.Services
 {
@@ -22,25 +23,36 @@ namespace DEvTL.DiscordBot.Services
             _client = client;
         }
 
-        public (SocketChannel channel, ModuleConfiguration.SuggestionModuleConfiguration.Sugguestion configuration) Process (string type)
+        public IMessageChannel Process (string type)
         {
-            var configuration = GetConfiguration(type);
-
-            if(configuration is null)
+            if (TryGetMessageChannel(out var messageChannel, GetConfiguration(type).ChannelId))
             {
-                _logger.LogWarning("No sugguestion type found for type {type}", type);
-                return (null, null);
+                return messageChannel;
             }
 
-            var channel = _client.GetChannel(configuration.ChannelId);
-
-            return (channel, configuration);
+            return null;
         }
 
-        private ModuleConfiguration.SuggestionModuleConfiguration.Sugguestion GetConfiguration(string type)
+        private ModuleConfiguration.SuggestionModuleConfiguration.Suggestion GetConfiguration(string type)
         {
-            return _options.CurrentValue.ModuleConfiguration.Sugguestion.Items.SingleOrDefault(
+            return _options.CurrentValue.ModuleConfiguration.Suggestion.Items.SingleOrDefault(
                 sugguestion => type == sugguestion.Type);
+        }
+
+
+        private bool TryGetMessageChannel(out IMessageChannel messageChannel, ulong channelId)
+        {
+            messageChannel = null;
+
+            var channel = _client.GetChannel(channelId);
+
+            if(channel is IMessageChannel msgChannel)
+            {
+                messageChannel = msgChannel;
+                return true;
+            }
+
+            return false;
         }
     }
 }
