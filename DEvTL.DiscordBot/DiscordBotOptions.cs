@@ -18,6 +18,7 @@ namespace DEvTL.DiscordBot
 
         public ReactionModuleConfiguration Reactions { get; set; }
         public SuggestionModuleConfiguration Suggestion { get; set; }
+        public WelcomeModuleConfiguration Welcome { get; set; }
 
         public class ReactionModuleConfiguration
         {
@@ -40,6 +41,12 @@ namespace DEvTL.DiscordBot
                 public string Type { get; set; }
                 public ulong ChannelId { get; set; }
             }
+        }
+
+        public class WelcomeModuleConfiguration
+        {
+            public ulong WelcomeChannelId { get; set; }
+            public ulong RulesChannelId { get; set; }
         }
     }
 
