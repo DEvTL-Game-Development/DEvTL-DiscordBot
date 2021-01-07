@@ -22,6 +22,8 @@ namespace DEvTL.DiscordBot.Extensions
 
             services.AddSingleton(DiscordSocketClientFactory);
 
+            services.AddSingleton<ChannelLogger>();
+
             services.AddSingleton<CommandService>();
             services.AddSingleton<CommandHandler>();
 

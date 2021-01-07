@@ -10,6 +10,7 @@ namespace DEvTL.DiscordBot
     {
         public char Prefix { get; set; }
         public bool AlwaysDownloadUsers { get; set; }
+        public ulong LogChannel { get; set; }
         public ModuleConfiguration ModuleConfiguration { get; set; }
     }
 
