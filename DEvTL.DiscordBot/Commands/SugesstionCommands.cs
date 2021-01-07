@@ -1,4 +1,5 @@
 ﻿using DEvTL.DiscordBot.Services;
+using DEvTL.DiscordBot.Extensions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -30,8 +31,7 @@ namespace DEvTL.DiscordBot.Commands
             var channel = _sugguestionService.Process(type);
 
             var builder = new EmbedBuilder()
-                .WithThumbnailUrl(Context.User.GetAvatarUrl() ?? Context.User.GetDefaultAvatarUrl())
-                .WithColor(237, 164, 55)
+                .WithInformationColor()
                 .AddField($"New suggestion made by {Context.User.Username} in #{Context.Channel.Name}", suggestion)
                 .WithCurrentTimestamp();
 
