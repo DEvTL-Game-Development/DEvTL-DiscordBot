@@ -16,12 +16,12 @@ namespace DEvTL.DiscordBot.Commands
         { 
             var builder = new EmbedBuilder()
                 .WithTitle("Useful Links")
-                .WithInformationColor()
+                .WithDefaultColor()
                 .WithThumbnailUrl(Context.User.GetAvatarUrl() ?? Context.User.GetDefaultAvatarUrl())
                 .AddField("Codecks", "https://devtl.codecks.io/decks")
                 .AddField("GitHub Repository", "https://github.com/DEvTL-Game-Development/Unititled-Tycoon-Game")
                 .AddField("Our e-mail", "devtl@outlook.de")
-                .AddField("Discord invite link", "https://discord.gg/tPYfzgC");
+                .AddField("Discord invite link", "https://discord.gg/3t4BueM");
 
             var embed = builder.Build();
 

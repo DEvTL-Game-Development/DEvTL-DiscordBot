@@ -28,7 +28,7 @@ namespace DEvTL.DiscordBot.Commands
             var messages = await Context.Channel.GetMessagesAsync(1).FlattenAsync();
             await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages);
 
-            var channel = _sugguestionService.Process(type);
+            var channel = _sugguestionService.Process(type.ToLower());
 
             var builder = new EmbedBuilder()
                 .WithInformationColor()

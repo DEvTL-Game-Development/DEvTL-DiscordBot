@@ -10,7 +10,7 @@ namespace DEvTL.DiscordBot.Extensions
     public static class EmbedBuilderExtension
     {
         private static readonly Color red = new Color(255, 56, 20);
-        private static readonly Color yellow = new Color(255, 56, 20);
+        private static readonly Color yellow = new Color(255, 230, 0);
         private static readonly Color green = new Color(21, 255, 0);
         private static readonly Color blue = new Color(0, 162, 255);
 
