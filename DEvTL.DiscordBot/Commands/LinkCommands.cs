@@ -4,14 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 
 namespace DEvTL.DiscordBot.Commands
 {
     public class LinkCommands : ModuleBase<ICommandContext>
     {
-        [Command("links",true)]
+        [Command("links")]
         public async Task Links()
-        {
+        { 
             var builder = new EmbedBuilder()
                 .WithTitle("Useful Links")
                 .WithColor(237, 164, 55)

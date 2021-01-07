@@ -1,4 +1,5 @@
 ﻿using DEvTL.DiscordBot.Services;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Options;
@@ -21,11 +22,22 @@ namespace DEvTL.DiscordBot.Commands
         }
 
         [Command("Suggest")]
-        public async Task SuggestAsync(string type, string suggestion)
+        public async Task SuggestAsync(string type, [Remainder]string suggestion)
         {
+            var messages = await Context.Channel.GetMessagesAsync(1).FlattenAsync();
+            await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages);
+
             var channel = _sugguestionService.Process(type);
 
-            await channel.SendMessageAsync(suggestion);
+            var builder = new EmbedBuilder()
+                .WithThumbnailUrl(Context.User.GetAvatarUrl() ?? Context.User.GetDefaultAvatarUrl())
+                .WithColor(237, 164, 55)
+                .AddField($"New suggestion made by {Context.User.Username} in #{Context.Channel.Name}", suggestion)
+                .WithCurrentTimestamp();
+
+            var embed = builder.Build();
+
+            await channel.SendMessageAsync(embed: embed);
         }
     }
 }

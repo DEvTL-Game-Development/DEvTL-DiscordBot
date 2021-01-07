@@ -29,7 +29,8 @@ namespace DEvTL.DiscordBot.Commands
 
         public async Task InitializeAsync()
         {
-            //_logger.LogInformation($"Prefix: {_hostOptions.CurrentValue.HostingConfiguration.Prefix}");
+            _logger.LogInformation($"Prefix set to: {_hostOptions.CurrentValue.Prefix}");
+
             _client.MessageReceived += MessageReceived;
             _commandService.CommandExecuted += CommandExecuted;
 
@@ -65,8 +66,7 @@ namespace DEvTL.DiscordBot.Commands
             }
 
             var context = new SocketCommandContext(_client, message);
-            _logger.LogInformation($"Message with the prefix {_hostOptions.CurrentValue.Prefix} recived from #{context.Channel.Name}");
-
+            
 
             /*using (var serviceScope = _serviceProvider.CreateScope())
             {
