@@ -52,22 +52,6 @@ namespace DEvTL.DiscordBot.Hosting
 
             await _client.StartAsync();
 
-            _client.Log += LogAsync;
-        }
-
-        private Task LogAsync(LogMessage arg)
-        {
-            if (arg.Exception is CommandException cmdException)
-            {
-                Console.WriteLine($"[Command/{arg.Severity}] {cmdException.Command.Aliases.First()}"
-                    + $" failed to execute in {cmdException.Context.Channel}.");
-                Console.WriteLine(cmdException);
-            }
-            else
-                Console.WriteLine($"[General/{arg.Severity}] {arg}");
-
-            return Task.CompletedTask;
-
         }
 
         public async Task StopAsync()

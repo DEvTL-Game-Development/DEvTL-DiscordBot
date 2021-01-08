@@ -1,12 +1,12 @@
-﻿using DEvTL.DiscordBot.Services;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using DEvTL.DiscordBot.Extensions;
+using DEvTL.DiscordBot.Services;
 using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace DEvTL.DiscordBot.Modules
 {
@@ -15,23 +15,30 @@ namespace DEvTL.DiscordBot.Modules
         private readonly ILogger<EventLoggerModule> _logger;
         private readonly ChannelLogger _channelLogger;
         private readonly DiscordSocketClient _client;
+        private readonly CommandService _commandService;
 
-        public EventLoggerModule(ILogger<EventLoggerModule> logger, ChannelLogger channelLogger, DiscordSocketClient client)
+        public EventLoggerModule(ILogger<EventLoggerModule> logger, ChannelLogger channelLogger, DiscordSocketClient client, CommandService commandService)
         {
             _logger = logger;
             _channelLogger = channelLogger;
             _client = client;
+            _commandService = commandService;
         }
 
         public Task InitializeAsync()
         {
+            _client.Log += DiscordLogAsync;
+            _commandService.Log += DiscordLogAsync;
+
             _client.GuildMemberUpdated += LogGuildMemberUpdatedAsync;
             return Task.CompletedTask;
         }
 
-        private Task OnRoleUpdated(SocketRole arg1, SocketRole arg2)
+        private Task DiscordLogAsync(LogMessage logMessage)
         {
-            throw new NotImplementedException();
+            _logger.Log(logMessage.Severity.ToLogLevel(), logMessage.Exception, "{0}: {1}", logMessage.Source, logMessage.Message);
+
+            return Task.CompletedTask;
         }
 
         private async Task LogGuildMemberUpdatedAsync(SocketGuildUser beforeUser, SocketGuildUser afterUser)
