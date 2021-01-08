@@ -48,6 +48,7 @@ namespace DEvTL.DiscordBot.Modules
 
             _logger.LogInformation("Add role {role}{roleId} to user {user}{userId}", role.Name, role.Id, user.Username, user.Id);
             await user.AddRoleAsync(role);
+            _logger.LogInformation("Added role");
         }
 
         private async Task OnReactionRemovedAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)

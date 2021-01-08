@@ -23,14 +23,15 @@ namespace DEvTL.DiscordBot.Services
             _client = client;
         }
 
-        public IMessageChannel Process (string type)
+        public bool Process (out IMessageChannel channel, string type)
         {
+            channel = null;
             if (TryGetMessageChannel(out var messageChannel, GetConfiguration(type).ChannelId))
             {
-                return messageChannel;
+                channel = messageChannel;
+                return true;
             }
-
-            return null;
+            return false;
         }
 
         private ModuleConfiguration.SuggestionModuleConfiguration.Suggestion GetConfiguration(string type)

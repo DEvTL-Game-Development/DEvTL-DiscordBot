@@ -14,30 +14,35 @@ namespace DEvTL.DiscordBot.Commands
     public class SugesstionCommands : ModuleBase
     {
         private readonly IOptionsMonitor<DiscordBotOptions> _options;
-        private readonly SuggestionService _sugguestionService;
+        private readonly SuggestionService _suggestionService;
 
         public SugesstionCommands(IOptionsMonitor<DiscordBotOptions> options, SuggestionService sugguestionService)
         {
             _options = options;
-            _sugguestionService = sugguestionService;
+            _suggestionService = sugguestionService;
         }
 
         [Command("Suggest")]
-        public async Task SuggestAsync(string type, [Remainder]string suggestion)
+        public async Task SuggestAsync(string type, [Remainder] string suggestion)
         {
             var messages = await Context.Channel.GetMessagesAsync(1).FlattenAsync();
-            await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages);
 
-            var channel = _sugguestionService.Process(type.ToLower());
 
-            var builder = new EmbedBuilder()
+            if (_suggestionService.Process(out var channel, type.ToLower()))
+            {
+                var builder = new EmbedBuilder()
                 .WithInformationColor()
                 .AddField($"New suggestion made by {Context.User.Username} in #{Context.Channel.Name}", suggestion)
                 .WithCurrentTimestamp();
 
-            var embed = builder.Build();
+                var embed = builder.Build();
 
-            await channel.SendMessageAsync(embed: embed);
+                await channel.SendMessageAsync(embed: embed);
+
+                await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages);
+            }
+
+            return;
         }
     }
 }
