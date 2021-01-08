@@ -1,11 +1,13 @@
 ﻿using DEvTL.DiscordBot.Commands;
 using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DEvTL.DiscordBot.Hosting
@@ -49,6 +51,23 @@ namespace DEvTL.DiscordBot.Hosting
             _logger.LogInformation("Starting up...");
 
             await _client.StartAsync();
+
+            _client.Log += LogAsync;
+        }
+
+        private Task LogAsync(LogMessage arg)
+        {
+            if (arg.Exception is CommandException cmdException)
+            {
+                Console.WriteLine($"[Command/{arg.Severity}] {cmdException.Command.Aliases.First()}"
+                    + $" failed to execute in {cmdException.Context.Channel}.");
+                Console.WriteLine(cmdException);
+            }
+            else
+                Console.WriteLine($"[General/{arg.Severity}] {arg}");
+
+            return Task.CompletedTask;
+
         }
 
         public async Task StopAsync()

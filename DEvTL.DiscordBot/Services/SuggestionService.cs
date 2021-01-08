@@ -26,7 +26,9 @@ namespace DEvTL.DiscordBot.Services
         public bool Process (out IMessageChannel channel, string type)
         {
             channel = null;
-            if (TryGetMessageChannel(out var messageChannel, GetConfiguration(type).ChannelId))
+
+            bool temp = TryGetMessageChannel(out var messageChannel, type);
+            if (temp)
             {
                 channel = messageChannel;
                 return true;
@@ -34,25 +36,34 @@ namespace DEvTL.DiscordBot.Services
             return false;
         }
 
-        private ModuleConfiguration.SuggestionModuleConfiguration.Suggestion GetConfiguration(string type)
+        private bool GetConfiguration(out ModuleConfiguration.SuggestionModuleConfiguration.Suggestion configuration, string type)
         {
-            return _options.CurrentValue.ModuleConfiguration.Suggestion.Items.SingleOrDefault(
+            configuration = _options.CurrentValue.ModuleConfiguration.Suggestion.Items.SingleOrDefault(
                 sugguestion => type == sugguestion.Type);
-        }
 
-
-        private bool TryGetMessageChannel(out IMessageChannel messageChannel, ulong channelId)
-        {
-            messageChannel = null;
-
-            var channel = _client.GetChannel(channelId);
-
-            if(channel is IMessageChannel msgChannel)
+            if (configuration is not null)
             {
-                messageChannel = msgChannel;
                 return true;
             }
 
+            return false;
+        }
+
+
+        private bool TryGetMessageChannel(out IMessageChannel messageChannel, string type)
+        {
+            messageChannel = null;
+
+            if (GetConfiguration(out var config, type))
+            {
+                var channel = _client.GetChannel(config.ChannelId);
+
+                if (channel is IMessageChannel msgChannel)
+                {
+                    messageChannel = msgChannel;
+                    return true;
+                }
+            }
             return false;
         }
     }
