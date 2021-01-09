@@ -7,6 +7,9 @@
 DEvTL.DiscordBot/Properties/
 DEvTL.DiscordBot/.discordbotrc
 
+# Ignore the logs
+DEvTL.DiscordBot/logs/
+
 # User-specific files
 *.rsuser
 *.suo
