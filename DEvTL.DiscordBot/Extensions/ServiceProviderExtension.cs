@@ -9,7 +9,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-
+using Serilog;
 
 namespace DEvTL.DiscordBot.Extensions
 {
@@ -17,6 +17,9 @@ namespace DEvTL.DiscordBot.Extensions
     {
         public static void AddDiscordBot(this IServiceCollection services, IConfiguration BotConfiguration)
         {
+            services.AddLogging(loggingBuilder =>
+            loggingBuilder.AddSerilog(dispose: true));
+
             services.AddOptions<DiscordBotOptions>().Bind(BotConfiguration);
             services.AddSingleton<DEvTL.DiscordBot.Hosting.Bot>();
 
