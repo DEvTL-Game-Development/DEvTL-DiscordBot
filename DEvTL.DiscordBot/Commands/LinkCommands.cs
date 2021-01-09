@@ -13,7 +13,7 @@ namespace DEvTL.DiscordBot.Commands
     {
         [Command("links")]
         public async Task Links()
-        { 
+        {
             var builder = new EmbedBuilder()
                 .WithTitle("Useful Links")
                 .WithDefaultColor()
@@ -21,7 +21,8 @@ namespace DEvTL.DiscordBot.Commands
                 .AddField("Codecks", "https://devtl.codecks.io/decks")
                 .AddField("GitHub Repository", "https://github.com/DEvTL-Game-Development/Unititled-Tycoon-Game")
                 .AddField("Our e-mail", "devtl@outlook.de")
-                .AddField("Discord invite link", "https://discord.gg/3t4BueM");
+                .AddField("Discord invite link", "https://discord.gg/3t4BueM")
+                .WithFooter("Use !links to get this embed");
 
             var embed = builder.Build();
 
