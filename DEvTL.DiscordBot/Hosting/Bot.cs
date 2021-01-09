@@ -68,7 +68,10 @@ namespace DEvTL.DiscordBot.Hosting
             //}
             _logger.LogInformation("Logging in...");
 
-            await _client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("DISCORD_TOKEN"));
+            var path = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, ".discordbotrc");
+            string token = System.IO.File.ReadAllText(path);
+
+            await _client.LoginAsync(TokenType.Bot, token);
 
             _logger.LogInformation("Logged in...");
         }

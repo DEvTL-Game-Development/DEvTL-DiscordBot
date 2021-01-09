@@ -3,8 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# Ignore launchsettings, because there are secret things
+# Ignore launchsettings and .discordbotrc, because there are secret things
 DEvTL.DiscordBot/Properties/
+DEvTL.DiscordBot/.discordbotrc
 
 # User-specific files
 *.rsuser
