@@ -40,6 +40,18 @@ namespace DEvTL.DiscordBot.Commands
                 await channel.SendMessageAsync(embed: embed);
 
                 await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages);
+
+                var successEmbedBuilder = new EmbedBuilder()
+                    .WithSucessColor()
+                    .WithBoldDescription($"I have added you suggestion succesfully and posted it in {MentionUtils.MentionChannel(channel.Id)} to be voted on.")
+                    .WithCurrentTimestamp();
+
+                var successEmbed = successEmbedBuilder.Build();
+
+                var msg = await (Context.Channel as SocketTextChannel).SendMessageAsync(embed: successEmbed);
+
+                await Task.Delay(5000);
+                await msg.DeleteAsync();
             }
 
             return;
