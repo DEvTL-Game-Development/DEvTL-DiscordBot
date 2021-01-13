@@ -18,7 +18,7 @@ namespace DEvTL.DiscordBot.Commands
                 .WithTitle("Useful Links")
                 .WithDefaultColor()
                 .WithThumbnailUrl(Context.User.GetAvatarUrl() ?? Context.User.GetDefaultAvatarUrl())
-                .AddField("Codecks", "https://devtl.codecks.io/decks")
+                .AddField("Codecks", "https://open.codecks.io/devtl")
                 .AddField("GitHub Repository", "https://github.com/DEvTL-Game-Development/Unititled-Tycoon-Game")
                 .AddField("Our e-mail", "devtl@outlook.de")
                 .AddField("Discord invite link", "https://discord.gg/3t4BueM")

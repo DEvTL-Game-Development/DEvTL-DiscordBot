@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DEvTL.DiscordBot.Extensions;
 using DEvTL.DiscordBot.Services;
@@ -31,7 +32,17 @@ namespace DEvTL.DiscordBot.Modules
             _commandService.Log += DiscordLogAsync;
 
             _client.GuildMemberUpdated += LogGuildMemberUpdatedAsync;
+            _client.UserLeft += LogUserLeftAsync;
             return Task.CompletedTask;
+        }
+
+        private async Task LogUserLeftAsync(SocketGuildUser arg)
+        {
+            var builder = CreateDefaultEmbedBuilder(arg);
+
+            await LogDestructiveAsync(builder.WithBoldDescription($"{MentionUtils.MentionUser(arg.Id)} has left the server"));
+
+
         }
 
         private Task DiscordLogAsync(LogMessage logMessage)
